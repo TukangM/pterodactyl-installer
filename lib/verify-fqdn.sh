@@ -60,7 +60,7 @@ dep_install() {
   update_repos true
 
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     install_packages "dnsutils" true
     ;;
   rocky | almalinux)

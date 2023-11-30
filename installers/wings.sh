@@ -75,7 +75,7 @@ dep_install() {
   [ "$CONFIGURE_FIREWALL" == true ] && install_firewall && firewall_ports
 
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     install_packages "ca-certificates gnupg lsb-release"
 
     mkdir -p /etc/apt/keyrings

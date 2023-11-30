@@ -4,7 +4,7 @@ set -e
 
 ######################################################################################
 #                                                                                    #
-# Project 'pterodactyl-installer'                                                    #
+# Project 'TukangM'                                                    #
 #                                                                                    #
 # Copyright (C) 2018 - 2023, Vilhelm Prytz, <vilhelm@prytznet.se>                    #
 #                                                                                    #
@@ -21,10 +21,10 @@ set -e
 #   You should have received a copy of the GNU General Public License                #
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.           #
 #                                                                                    #
-# https://github.com/pterodactyl-installer/pterodactyl-installer/blob/master/LICENSE #
+# https://github.com/TukangM/TukangM/blob/master/LICENSE #
 #                                                                                    #
 # This script is not associated with the official Pterodactyl Project.               #
-# https://github.com/pterodactyl-installer/pterodactyl-installer                     #
+# https://github.com/TukangM/TukangM                     #
 #                                                                                    #
 ######################################################################################
 
@@ -46,13 +46,13 @@ export OS=""
 export OS_VER_MAJOR=""
 export CPU_ARCHITECTURE=""
 export ARCH=""
-export SUPPORTED=true
+export SUPPORTED=false
 
 # download URLs
 export PANEL_DL_URL="https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz"
 export WINGS_DL_BASE_URL="https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_"
 export MARIADB_URL="https://downloads.mariadb.com/MariaDB/mariadb_repo_setup"
-export GITHUB_BASE_URL=${GITHUB_BASE_URL:-"https://raw.githubusercontent.com/pterodactyl-installer/pterodactyl-installer"}
+export GITHUB_BASE_URL=${GITHUB_BASE_URL:-"https://raw.githubusercontent.com/TukangM/TukangM"}
 export GITHUB_URL="$GITHUB_BASE_URL/$GITHUB_SOURCE"
 
 # Colors
@@ -125,7 +125,7 @@ welcome() {
   output "Pterodactyl panel installation script @ $SCRIPT_RELEASE"
   output ""
   output "Copyright (C) 2018 - 2023, Vilhelm Prytz, <vilhelm@prytznet.se>"
-  output "https://github.com/pterodactyl-installer/pterodactyl-installer"
+  output "https://github.com/TukangM/TukangM"
   output ""
   output "This script is not associated with the official Pterodactyl Project."
   output ""
@@ -242,7 +242,7 @@ update_repos() {
   local args=""
   [[ $1 == true ]] && args="-qq"
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     apt-get -y $args update
     ;;
   *)
@@ -256,14 +256,14 @@ install_packages() {
   local args=""
   if [[ $2 == true ]]; then
     case "$OS" in
-    ubuntu | debian) args="-qq" ;;
+    ubuntu | debian | linuxmint) args="-qq" ;;
     *) args="-q" ;;
     esac
   fi
 
   # Eval needed for proper expansion of arguments
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     eval apt-get -y $args install "$1"
     ;;
   rocky | almalinux)
@@ -348,7 +348,7 @@ ask_firewall() {
   local __resultvar=$1
 
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     echo -e -n "* Do you want to automatically configure UFW (firewall)? (y/N): "
     read -r CONFIRM_UFW
 
@@ -369,7 +369,7 @@ ask_firewall() {
 
 install_firewall() {
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     output ""
     output "Installing Uncomplicated Firewall (UFW)"
 
@@ -402,7 +402,7 @@ install_firewall() {
 
 firewall_allow_ports() {
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     for port in $1; do
       ufw allow "$port"
     done
@@ -534,6 +534,9 @@ ubuntu)
   ;;
 linuxmint)
   [ "$OS_VER_MAJOR" == "21" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "21.2" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "21.1" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "21.3" ] && SUPPORTED=true
   [ "$OS_VER_MAJOR" == "20" ] && SUPPORTED=true
   export DEBIAN_FRONTEND=noninteractive
   ;;

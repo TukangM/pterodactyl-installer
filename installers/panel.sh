@@ -174,7 +174,7 @@ configure() {
 set_folder_permissions() {
   # if os is ubuntu or debian, we do this
   case "$OS" in
-  debian | ubuntu)
+  debian | ubuntu | linuxmint)
     chown -R www-data:www-data ./*
     ;;
   rocky | almalinux)
@@ -200,7 +200,7 @@ install_pteroq() {
   curl -o /etc/systemd/system/pteroq.service "$GITHUB_URL"/configs/pteroq.service
 
   case "$OS" in
-  debian | ubuntu)
+  debian | ubuntu | linuxmint)
     sed -i -e "s@<user>@www-data@g" /etc/systemd/system/pteroq.service
     ;;
   rocky | almalinux)
@@ -218,7 +218,7 @@ install_pteroq() {
 
 enable_services() {
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     systemctl enable redis-server
     systemctl start redis-server
     ;;
@@ -284,7 +284,7 @@ dep_install() {
   [ "$CONFIGURE_FIREWALL" == true ] && install_firewall && firewall_ports
 
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     [ "$OS" == "ubuntu" ] && ubuntu_dep
     [ "$OS" == "debian" ] && debian_dep
 
@@ -376,7 +376,7 @@ configure_nginx() {
   fi
 
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     PHP_SOCKET="/run/php/php8.1-fpm.sock"
     CONFIG_PATH_AVAIL="/etc/nginx/sites-available"
     CONFIG_PATH_ENABL="/etc/nginx/sites-enabled"
@@ -397,7 +397,7 @@ configure_nginx() {
   sed -i -e "s@<php_socket>@${PHP_SOCKET}@g" "$CONFIG_PATH_AVAIL"/pterodactyl.conf
 
   case "$OS" in
-  ubuntu | debian)
+  ubuntu | debian | linuxmint)
     ln -sf "$CONFIG_PATH_AVAIL"/pterodactyl.conf "$CONFIG_PATH_ENABL"/pterodactyl.conf
     ;;
   esac
