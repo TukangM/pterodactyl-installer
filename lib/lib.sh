@@ -540,6 +540,14 @@ linuxmint)
   [ "$OS_VER_MAJOR" == "20" ] && SUPPORTED=true
   export DEBIAN_FRONTEND=noninteractive
   ;;
+Linuxmint)
+  [ "$OS_VER_MAJOR" == "21" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "21.2" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "21.1" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "21.3" ] && SUPPORTED=true
+  [ "$OS_VER_MAJOR" == "20" ] && SUPPORTED=true
+  export DEBIAN_FRONTEND=noninteractive
+  ;;
 debian)
   [ "$OS_VER_MAJOR" == "10" ] && SUPPORTED=true
   [ "$OS_VER_MAJOR" == "11" ] && SUPPORTED=true
