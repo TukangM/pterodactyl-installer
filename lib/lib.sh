@@ -402,7 +402,7 @@ install_firewall() {
 
 firewall_allow_ports() {
   case "$OS" in
-  ubuntu | debian | linuxmint)
+  ubuntu | debian)
     for port in $1; do
       ufw allow "$port"
     done
